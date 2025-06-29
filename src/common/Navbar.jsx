@@ -32,35 +32,59 @@ const Navbar = () => {
   const [faqsOpen, setFaqsOpen] = useState(false);
   const mobileMenuRef = useRef(null);
 
-  // Close mobile menu function
-  const closeMobileMenu = () => {
-    setIsOpen(false);
+  // Close all dropdown menus
+  const closeAllDropdowns = () => {
     setServicesOpen(false);
     setUpdatesOpen(false);
     setGalleryOpen(false);
     setFaqsOpen(false);
   };
 
-  // Close mobile menu when clicking outside or scrolling
+  // Close mobile menu function
+  const closeMobileMenu = () => {
+    setIsOpen(false);
+    closeAllDropdowns();
+  };
+
+  // Handle dropdown toggle - close others when opening one
+  const handleDropdownToggle = (title, isOpen, setOpen) => {
+    // if the title is not open, close all dropdowns because we are opening this one after closing others
+    if (!isOpen) {
+      closeAllDropdowns();
+    }
+    setOpen(!isOpen);
+  };
+
+  // close mobile menu when clicking outside or scrolling
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+      // Check if mobile menu ref exists and the clicked element is not inside the mobile menu
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
         closeMobileMenu();
       }
     };
 
     const handleScroll = () => {
+      // Close mobile menu when user scrolls the page
       closeMobileMenu();
     };
 
+    // Only add event listeners if mobile menu is open
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      window.addEventListener('scroll', handleScroll);
+      // Add event listener for mouse clicks on the entire document
+      document.addEventListener("mousedown", handleClickOutside);
+      // Add event listener for scroll events on the window
+      window.addEventListener("scroll", handleScroll);
     }
 
+    // Cleanup function - removes event listeners when component unmounts
+    // or when isOpen state changes
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [isOpen]);
 
@@ -75,7 +99,7 @@ const Navbar = () => {
           </div>
         </Link>
       </NavigationMenuLink>
-  ));
+    ));
 
   const categoriesDesktop = [...NAVIGATION_DATA.categories].sort(
     (a, b) => a.desktopOrder - b.desktopOrder
@@ -214,7 +238,7 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-black focus:outline-none"
-          onClick={() => isOpen ? closeMobileMenu() : setIsOpen(true)}
+          onClick={() => (isOpen ? closeMobileMenu() : setIsOpen(true))}
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -222,7 +246,10 @@ const Navbar = () => {
 
       {/* Mobile Navbar Menu */}
       {isOpen && (
-        <div ref={mobileMenuRef} className="md:hidden absolute top-full left-0 w-full bg-white border-t border-b border-neutral-200 shadow-lg z-40 max-h-[80vh] overflow-y-auto scrollbar-hide">
+        <div
+          ref={mobileMenuRef}
+          className="md:hidden absolute top-full left-0 w-full bg-white border-t border-b border-neutral-200 shadow-lg z-40 max-h-[80vh] overflow-y-auto scrollbar-hide"
+        >
           <div className="px-4 py-4 space-y-1">
             {/* Home */}
             <Link to="/" className="block w-full" onClick={closeMobileMenu}>
@@ -232,7 +259,11 @@ const Navbar = () => {
             </Link>
 
             {/* About */}
-            <Link to="/about" className="block w-full" onClick={closeMobileMenu}>
+            <Link
+              to="/about"
+              className="block w-full"
+              onClick={closeMobileMenu}
+            >
               <Button variant="ghost" className={STYLES.mobileButton}>
                 About
               </Button>
@@ -240,16 +271,36 @@ const Navbar = () => {
 
             {/* Services, Updates, Gallery, FAQs */}
             {[
-              { title: "Services", items: navContent.categoriesMobile, isOpen: servicesOpen, setOpen: setServicesOpen },
-              { title: "Updates", items: navContent.updatesMobile, isOpen: updatesOpen, setOpen: setUpdatesOpen },
-              { title: "Gallery", items: navContent.galleryMobile, isOpen: galleryOpen, setOpen: setGalleryOpen },
-              { title: "FAQs", items: navContent.faqsMobile, isOpen: faqsOpen, setOpen: setFaqsOpen }
+              {
+                title: "Services",
+                items: navContent.categoriesMobile,
+                isOpen: servicesOpen,
+                setOpen: setServicesOpen,
+              },
+              {
+                title: "Updates",
+                items: navContent.updatesMobile,
+                isOpen: updatesOpen,
+                setOpen: setUpdatesOpen,
+              },
+              {
+                title: "Gallery",
+                items: navContent.galleryMobile,
+                isOpen: galleryOpen,
+                setOpen: setGalleryOpen,
+              },
+              {
+                title: "FAQs",
+                items: navContent.faqsMobile,
+                isOpen: faqsOpen,
+                setOpen: setFaqsOpen,
+              },
             ].map(({ title, items, isOpen, setOpen }) => (
               <div key={title} className="w-full">
                 <Button
                   variant="ghost"
                   className={`${STYLES.mobileButton} justify-between`}
-                  onClick={() => setOpen(!isOpen)}
+                  onClick={() => handleDropdownToggle(title, isOpen, setOpen)}
                 >
                   {title}
                   {isOpen ? (
@@ -262,7 +313,12 @@ const Navbar = () => {
                 {isOpen && (
                   <div className="ml-4 mt-2 space-y-1">
                     {items.map((item) => (
-                      <Link key={item.id} to={item.link} className="block w-full" onClick={closeMobileMenu}>
+                      <Link
+                        key={item.id}
+                        to={item.link}
+                        className="block w-full"
+                        onClick={closeMobileMenu}
+                      >
                         <Button
                           variant="ghost"
                           className={STYLES.mobileNavContentItem}
@@ -278,7 +334,11 @@ const Navbar = () => {
             ))}
 
             {/* Contact Us */}
-            <Link to="/contact" className="block w-full" onClick={closeMobileMenu}>
+            <Link
+              to="/contact"
+              className="block w-full"
+              onClick={closeMobileMenu}
+            >
               <Button variant="ghost" className={STYLES.mobileButton}>
                 Contact Us
               </Button>
