@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import HeroImage from "@/assets/hero-image/hero-image.png";
 import HeroImageMobile from "@/assets/hero-image/hero-mobile.svg";
 import { BlurIn } from "@/components/ui/blur-in";
@@ -38,13 +38,7 @@ const useMediaQuery = (query) => {
   return matches;
 };
 
-// Image preloader function
-const preloadImage = (src) => {
-  const img = new Image();
-  img.src = src;
-};
-
-// Memoized Desktop Hero Component
+// Simple Desktop Hero Component
 const DesktopHero = () => (
   <section className="relative pb-24 pt-12 custom-radial-gradient overflow-x-hidden">
     {/* Background gradient */}
@@ -61,6 +55,7 @@ const DesktopHero = () => (
             loading="eager"
             decoding="async"
             width="740"
+            height="480"
           />
 
           <div className="absolute inset-0 flex items-center justify-center transform translate-x-[575px]">
@@ -87,15 +82,12 @@ const DesktopHero = () => (
   </section>
 );
 
-// Memoized Mobile Hero Component
+// Simple Mobile Hero Component
 const MobileHero = () => {
-  const buttonLinks = useMemo(
-    () => [
-      { to: "/about", text: "About Us", primary: true },
-      { to: "/contact", text: "Contact Us", primary: false },
-    ],
-    []
-  );
+  const buttonLinks = [
+    { to: "/about", text: "About Us", primary: true },
+    { to: "/contact", text: "Contact Us", primary: false },
+  ];
 
   return (
     <section className="flex flex-col gap-5 w-full">
@@ -139,7 +131,7 @@ const MobileHero = () => {
             decoding="async"
             className="w-80 md:w-96 drop-shadow-xl"
             width="320"
-            height="auto"
+            height="240"
           />
         </div>
       </div>
@@ -147,25 +139,22 @@ const MobileHero = () => {
   );
 };
 
-// Memoize components to prevent unnecessary re-renders
-const MemoizedDesktopHero = React.memo(DesktopHero);
-const MemoizedMobileHero = React.memo(MobileHero);
-
 const Hero = () => {
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  // Preload images on component mount
+  // Add image preloading for better UX
   useEffect(() => {
+    const preloadImage = (src) => {
+      const img = new Image();
+      img.src = src;
+    };
+    
     preloadImage(HeroImage);
     preloadImage(HeroImageMobile);
   }, []);
 
-  // Use useMemo to prevent unnecessary re-renders
-  const heroContent = useMemo(() => {
-    return isMobile ? <MemoizedMobileHero /> : <MemoizedDesktopHero />;
-  }, [isMobile]);
-
-  return heroContent;
+  // Simple conditional render
+  return isMobile ? <MobileHero /> : <DesktopHero />;
 };
 
-export default React.memo(Hero);
+export default Hero;
