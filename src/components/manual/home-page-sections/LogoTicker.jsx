@@ -1,52 +1,6 @@
-import honeywell from "@/assets/client-logos/honeywell.svg";
-import panasonic from "@/assets/client-logos/panasonic.svg";
-import ikea from "@/assets/client-logos/ikea.svg";
-import ansell from "@/assets/client-logos/ansell.svg";
-import ametek from "@/assets/client-logos/ametek.svg";
-import bosch from "@/assets/client-logos/bosch.svg";
 import { useMemo, memo, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-
-const logos = [
-  {
-    name: "Honeywell",
-    src: honeywell,
-    height: "37",
-    alt: "Honeywell Logo",
-  },
-  {
-    name: "IKEA",
-    src: ikea,
-    height: "30",
-    alt: "IKEA Logo",
-  },
-  {
-    name: "Panasonic",
-    src: panasonic,
-    height: "26",
-    alt: "Panasonic Logo",
-  },
-
-  {
-    name: "Ansell",
-    src: ansell,
-    height: "26",
-    alt: "Ansell Logo",
-  },
-  {
-    name: "Ametek",
-    src: ametek,
-    height: "23.5",
-    alt: "Ametek Logo",
-  },
-
-  {
-    name: "Bosch",
-    src: bosch,
-    height: "32",
-    alt: "Bosch Logo",
-  },
-];
+import { ANIMATION_SPEEDS, COMPANY_LOGOS } from "@/data/logo-ticker-data/logo-ticker-data";
 
 const LogoTicker = ({
   direction = "left",
@@ -58,36 +12,21 @@ const LogoTicker = ({
 
   // Start animation after component mounts - replicating original timing
   useEffect(() => {
-    const timer = setTimeout(() => setStart(true), 0);
-    return () => clearTimeout(timer);
+    setStart(true);
   }, []);
 
   // Memoize animation styles to prevent unnecessary recalculations
   const animationStyles = useMemo(() => {
     const animationDirection = direction === "left" ? "forwards" : "reverse";
-    let animationDuration;
-
-    switch (speed) {
-      case "fast":
-        animationDuration = "20s";
-        break;
-      case "normal":
-        animationDuration = "30s";
-        break;
-      default: // "slow"
-        animationDuration = "40s";
-        break;
-    }
-
     return {
       "--animation-direction": animationDirection,
-      "--animation-duration": animationDuration,
+      "--animation-duration": ANIMATION_SPEEDS[speed],
     };
   }, [direction, speed]);
 
   // Create duplicated logos array for infinite scroll effect
   const duplicatedLogos = useMemo(() => {
-    return [...logos, ...logos]; // Duplicate the array instead of DOM manipulation
+    return [...COMPANY_LOGOS, ...COMPANY_LOGOS]; // Duplicate the array instead of DOM manipulation
   }, []);
 
   return (
@@ -110,7 +49,7 @@ const LogoTicker = ({
           >
             {duplicatedLogos.map((logo, index) => (
               <li
-                key={`${logo.name}-${index}`} // Unique key for duplicated items
+                key={`${logo.name}-${index}`} // Stable unique keys - proper React pattern
                 className="flex items-center justify-center px-6 py-4 shrink-0"
               >
                 <img
@@ -119,7 +58,7 @@ const LogoTicker = ({
                   alt={logo.alt}
                   height={logo.height}
                   width="auto"
-                  style={{ height: `${logo.height}px` }}
+                  style={{ height: `${logo.height}px` }} // Simple inline style - fast & clean
                   // Performance optimization: prevent layout shift
                   loading="eager"
                   decoding="sync"

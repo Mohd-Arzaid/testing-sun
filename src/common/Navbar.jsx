@@ -9,7 +9,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { NAVIGATION_DATA } from "@/navbar-data/navbar-data";
+import { NAVIGATION_DATA } from "@/data/navbar-data/navbar-data";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 
