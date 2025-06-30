@@ -1,7 +1,16 @@
 import { cn } from "@/lib/utils";
 import { Mail, Phone } from "lucide-react";
 
-const TopBar = () => {
+
+const Container = ({ children, className }) => {
+  return (
+    <div className={cn("w-full max-w-[88rem]  mx-auto", className)}>
+      {children}
+    </div>
+  );
+};
+
+const TopBar = () => {  
   return (
     <div className="bg-[#0A4394] text-white py-2.5 sticky top-0 z-50 hidden md:block">
       <Container className="relative flex items-center justify-center gap-8">
@@ -60,10 +69,3 @@ const TopBar = () => {
 
 export default TopBar;
 
-const Container = ({ children, className }) => {
-  return (
-    <div className={cn("w-full max-w-[88rem]  mx-auto", className)}>
-      {children}
-    </div>
-  );
-};
