@@ -1,7 +1,7 @@
 export const ANIMATION_SPEEDS = {
-  fast: "20s",
-  normal: "30s",
-  slow: "40s",
+  fast: "15s",
+  normal: "25s",
+  slow: "35s",
 };
 
 export const COMPANY_LOGOS = [

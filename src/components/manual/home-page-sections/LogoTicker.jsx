@@ -1,6 +1,9 @@
 import { useMemo, memo, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { ANIMATION_SPEEDS, COMPANY_LOGOS } from "@/data/logo-ticker-data/logo-ticker-data";
+import {
+  ANIMATION_SPEEDS,
+  COMPANY_LOGOS,
+} from "@/data/logo-ticker-data/logo-ticker-data";
 
 const LogoTicker = ({
   direction = "left",
@@ -30,15 +33,15 @@ const LogoTicker = ({
   }, []);
 
   return (
-    <div className="bg-white w-full py-5">
-      <div className="max-w-[84rem] mx-auto px-4">
+    <div className="bg-white w-full py-3 md:py-5">
+      <div className="max-w-[84rem] mx-auto px-2 md:px-4">
         <div
           className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
           style={animationStyles}
         >
           <ul
             className={cn(
-              "flex w-max min-w-full shrink-0 flex-nowrap gap-6",
+              "flex w-max min-w-full shrink-0 flex-nowrap gap-1 md:gap-6",
               // Animation only starts when start is true - exactly like original
               start && "animate-scroll",
               // GPU acceleration optimization
@@ -50,10 +53,10 @@ const LogoTicker = ({
             {duplicatedLogos.map((logo, index) => (
               <li
                 key={`${logo.name}-${index}`} // Stable unique keys - proper React pattern
-                className="flex items-center justify-center px-6 py-4 shrink-0"
+                className="flex items-center justify-center px-3 md:px-6 py-2 md:py-4 shrink-0"
               >
                 <img
-                  className="mx-auto w-fit"
+                  className="mx-auto w-fit scale-[0.8] md:scale-100"
                   src={logo.src}
                   alt={logo.alt}
                   height={logo.height}
