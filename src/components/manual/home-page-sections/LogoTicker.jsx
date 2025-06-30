@@ -4,7 +4,7 @@ import ikea from "@/assets/client-logos/ikea.svg";
 import ansell from "@/assets/client-logos/ansell.svg";
 import ametek from "@/assets/client-logos/ametek.svg";
 import bosch from "@/assets/client-logos/bosch.svg";
-import { useEffect, useRef, useState } from "react";
+import { useMemo, memo, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const logos = [
@@ -50,101 +50,79 @@ const logos = [
 
 const LogoTicker = ({
   direction = "left",
-  speed = "slow",
+  speed = "normal",
   pauseOnHover = true,
 }) => {
-  const containerRef = useRef(null); // Main container element ka reference
-  const scrollerRef = useRef(null); // Scrolling ul element ka reference
-
+  // State to control when animation starts - exactly like original behavior
   const [start, setStart] = useState(false);
 
-  // useEffect - component mount hone par animation setup karta hai
+  // Start animation after component mounts - replicating original timing
   useEffect(() => {
-    addAnimation();
-  }, []); // Empty dependency array - sirf ek baar run hoga
+    const timer = setTimeout(() => setStart(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const addAnimation = () => {
-    // Check kar rahe hain ki dono refs available hain ya nahi
-    if (containerRef.current && scrollerRef.current) {
-      // Scroller ke andar ke sab children (logo items) ko array mein convert kar rahe hain
-      const scrollerContent = Array.from(scrollerRef.current.children);
+  // Memoize animation styles to prevent unnecessary recalculations
+  const animationStyles = useMemo(() => {
+    const animationDirection = direction === "left" ? "forwards" : "reverse";
+    let animationDuration;
 
-      // Har logo item ko duplicate kar rahe hain - infinite scroll effect ke liye
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true); // Logo item ko clone kar rahe hain (deep copy)
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem); // Clone ko scroller mein add kar rahe hain
-        }
-      });
-
-      getDirection();
-      getSpeed();
-      setStart(true);
+    switch (speed) {
+      case "fast":
+        animationDuration = "20s";
+        break;
+      case "normal":
+        animationDuration = "30s";
+        break;
+      default: // "slow"
+        animationDuration = "40s";
+        break;
     }
-  };
 
-  const getDirection = () => {
-    if (containerRef.current) {
-      if (direction === "left") {
-        // Left direction ke liye CSS custom property set kar rahe hain
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards" // CSS animation forwards chalegi
-        );
-      } else {
-        // Right direction ke liye reverse kar rahe hain
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse" // CSS animation reverse chalegi
-        );
-      }
-    }
-  };
+    return {
+      "--animation-direction": animationDirection,
+      "--animation-duration": animationDuration,
+    };
+  }, [direction, speed]);
 
-  const getSpeed = () => {
-    if (containerRef.current) {
-      if (speed === "fast") {
-        // Fast speed - 20 seconds mein complete cycle
-        containerRef.current.style.setProperty("--animation-duration", "20s");
-      } else if (speed === "normal") {
-        // Normal speed - 40 seconds mein complete cycle
-        containerRef.current.style.setProperty("--animation-duration", "40s");
-      } else {
-        // Slow speed (default) - 60 seconds mein complete cycle
-        containerRef.current.style.setProperty("--animation-duration", "60s");
-      }
-    }
-  };
+  // Create duplicated logos array for infinite scroll effect
+  const duplicatedLogos = useMemo(() => {
+    return [...logos, ...logos]; // Duplicate the array instead of DOM manipulation
+  }, []);
 
   return (
     <div className="bg-white w-full py-5">
       <div className="max-w-[84rem] mx-auto px-4">
         <div
-          ref={containerRef}
           className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
-          // overflow hidden - bahar nikalne wale elements hide ho jayenge
-          // mask-image - edges par fade effect dene ke liye gradient mask
+          style={animationStyles}
         >
           <ul
-            ref={scrollerRef}
             className={cn(
               "flex w-max min-w-full shrink-0 flex-nowrap gap-6",
-              start && "animate-scroll", // Animation class sirf tab add hogi jab start true ho
-              pauseOnHover && "hover:[animation-play-state:paused]" // Hover par pause sirf tab hoga jab pauseOnHover true ho
+              // Animation only starts when start is true - exactly like original
+              start && "animate-scroll",
+              // GPU acceleration optimization
+              "[will-change:transform]",
+              // Pause on hover functionality
+              pauseOnHover && "hover:[animation-play-state:paused]"
             )}
           >
-            {logos.map((logo) => (
+            {duplicatedLogos.map((logo, index) => (
               <li
-                key={logo.name}
+                key={`${logo.name}-${index}`} // Unique key for duplicated items
                 className="flex items-center justify-center px-6 py-4 shrink-0"
               >
                 <img
-                  className="mx-auto w-fit" // Center align, width fit to content
+                  className="mx-auto w-fit"
                   src={logo.src}
                   alt={logo.alt}
                   height={logo.height}
                   width="auto"
-                  style={{ height: `${logo.height}px` }} // Inline style - exact height pixels mein
+                  style={{ height: `${logo.height}px` }}
+                  // Performance optimization: prevent layout shift
+                  loading="eager"
+                  decoding="sync"
                 />
               </li>
             ))}
@@ -155,4 +133,5 @@ const LogoTicker = ({
   );
 };
 
-export default LogoTicker;
+// Memoize component to prevent unnecessary re-renders
+export default memo(LogoTicker);

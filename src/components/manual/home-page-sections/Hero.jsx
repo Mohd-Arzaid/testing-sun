@@ -60,7 +60,6 @@ const DesktopHero = () => (
             className="shadow-[0_5px_40px_-12px_rgba(0,0,0,0.3)] w-full max-w-[740px] h-auto object-cover"
             loading="eager"
             decoding="async"
-            fetchPriority="high"
             width="740"
           />
 
@@ -138,7 +137,6 @@ const MobileHero = () => {
             alt="Hero Mobile Image"
             loading="eager"
             decoding="async"
-            fetchPriority="high"
             className="w-80 md:w-96 drop-shadow-xl"
             width="320"
             height="auto"
