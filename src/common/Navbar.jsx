@@ -13,6 +13,7 @@ import { NAVIGATION_DATA } from "@/navbar-data/navbar-data";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 
+
 const STYLES = {
   button:
     "text-base uppercase text-foreground/60 font-roboto tracking-wide hover:text-foreground/80 transition-colors",

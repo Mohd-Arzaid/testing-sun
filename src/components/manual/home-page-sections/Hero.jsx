@@ -62,11 +62,10 @@ const DesktopHero = () => (
             decoding="async"
             fetchPriority="high"
             width="740"
-            height="auto"
           />
 
           <div className="absolute inset-0 flex items-center justify-center transform translate-x-[575px]">
-            <article className="py-6 px-8 bg-white w-[650px] h-[380px] bg-white/70 backdrop-blur-lg shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px]">
+            <article className="py-6 px-8 bg-white/70 backdrop-blur-lg w-[650px] h-[380px] shadow-[rgba(0,_0,_0,_0.25)_0px_25px_50px_-12px]">
               <div className="relative max-w-[600px]">
                 <h1 className="text-5xl font-bold font-playfair text-left text-black leading-[52px]">
                   Sun Certifications India
