@@ -6,12 +6,6 @@ import ansellLogo from "@/assets/client-logos/ansell.svg";
 import ametekLogo from "@/assets/client-logos/ametek.svg";
 import boschLogo from "@/assets/client-logos/bosch.svg";
 
-export const ANIMATION_SPEEDS = {
-  fast: "15s",
-  normal: "25s",
-  slow: "35s",
-};
-
 export const COMPANY_LOGOS = [
   {
     name: "Honeywell",

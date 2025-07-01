@@ -116,14 +116,14 @@ const OurServices = () => {
   );
 
   return (
-    <div className="bg-gradient-to-b from-[#F9F7F2] to-white py-8 sm:py-12 md:py-16">
+    <div className="bg-gradient-to-b from-[#F9F7F2] to-white pt-8 pb-8  sm:pt-12 md:pt-16 ">
       <div className="max-w-[84rem] mx-auto px-4 sm:px-6 md:px-12">
         {/* Heading */}
         <div className="text-center mb-4 sm:mb-8">
           <h2 className="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-800 drop-shadow-lg mb-2 sm:mb-3">
             Our Services
           </h2>
-          <p className="text-base sm:text-lg md:text-xl font-geist text-neutral-600 max-w-xl mx-auto px-4 sm:px-0">
+          <p className="text-base sm:text-lg md:text-xl font-geist text-neutral-600 max-w-xl mx-auto">
             We offer end-to-end solutions for all your certification needs to
             enter and thrive in the Indian market.
           </p>
@@ -225,7 +225,7 @@ const OurServices = () => {
         </div>
 
         {/* Service thumbnails */}
-        <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 ">
           {services.map((service, index) => (
             <div
               key={service.id}

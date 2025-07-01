@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import HeroImage from "@/assets/hero-image/hero-image.png";
+import HeroImage from "@/assets/hero-image/hero-image.webp";
 import HeroImageMobile from "@/assets/hero-image/hero-mobile.svg";
 import { BlurIn } from "@/components/ui/blur-in";
 import { FadeText } from "@/components/ui/fade-text";

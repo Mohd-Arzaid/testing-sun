@@ -1,9 +1,13 @@
 import { useMemo, memo, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import {
-  ANIMATION_SPEEDS,
-  COMPANY_LOGOS,
-} from "@/data/logo-ticker-data/logo-ticker-data";
+import { COMPANY_LOGOS } from "@/data/logo-ticker-data/logo-ticker-data";
+
+const ANIMATION_SPEEDS = {
+  fast: "15s",
+  normal: "25s",
+  slow: "35s",
+};
+
 
 const LogoTicker = ({
   direction = "left",
