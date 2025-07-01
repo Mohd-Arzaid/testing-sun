@@ -6,7 +6,7 @@ import EPRCertificate from "@/assets/services-images/EPRCertificate.jpg";
 import LMPC from "@/assets/services-images/LMPC.jpg";
 import ISIMark from "@/assets/services-images/ISIMark.jpg";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const services = [
@@ -81,19 +81,39 @@ const OurServices = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeThumbnail, setActiveThumbnail] = useState(0);
 
-  const prevSlide = () => {
+  // Memoize transform style calculation
+  const slideTransform = useMemo(
+    () => ({
+      transform: `translateX(-${activeIndex * 100}%)`,
+    }),
+    [activeIndex]
+  );
+
+  // useCallback for event handlers to prevent unnecessary re-renders
+  const prevSlide = useCallback(() => {
     setActiveIndex(
       (prevIndex) => (prevIndex - 1 + services.length) % services.length
     );
-  };
+  }, []);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % services.length);
-  };
+  }, []);
 
-  const goToSlide = (index) => {
+  const goToSlide = useCallback((index) => {
     setActiveIndex(index);
-  };
+  }, []);
+
+  const handleThumbnailClick = useCallback((index) => {
+    setActiveThumbnail(index);
+  }, []);
+
+  const handleServiceNavigation = useCallback(
+    (path) => {
+      navigate(path);
+    },
+    [navigate]
+  );
 
   return (
     <div className="bg-gradient-to-b from-[#F9F7F2] to-white py-8 sm:py-12 md:py-16">
@@ -130,7 +150,7 @@ const OurServices = () => {
           <div className="relative overflow-hidden rounded-3xl shadow-2xl h-[500px] bg-gradient-to-br from-[#1A8781]/5 to-[#1A8781]/20 border border-[#1A8781]/30">
             <div
               className="flex transition-transform duration-500 h-full"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              style={slideTransform}
             >
               {services.map((service) => (
                 <div
@@ -157,7 +177,7 @@ const OurServices = () => {
                       </p>
 
                       <button
-                        onClick={() => navigate(service.path)}
+                        onClick={() => handleServiceNavigation(service.path)}
                         className="flex items-center gap-3 bg-[#1A8781] text-white py-3 px-6 rounded-full shadow-lg hover:bg-[#125E5A] transition-all duration-300 w-fit mt-2 group"
                       >
                         <span className="font-medium text-base">
@@ -209,7 +229,7 @@ const OurServices = () => {
           {services.map((service, index) => (
             <div
               key={service.id}
-              onClick={() => setActiveThumbnail(index)}
+              onClick={() => handleThumbnailClick(index)}
               className={`rounded-xl p-3 md:p-4 transition-all duration-300 border ${
                 activeThumbnail === index
                   ? "bg-[#1A8781]/20 border-[#1A8781]/60 shadow-md"
