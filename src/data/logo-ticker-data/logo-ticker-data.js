@@ -1,3 +1,11 @@
+// Import all SVG assets properly for Vite build
+import honeywellLogo from "@/assets/client-logos/honeywell.svg";
+import ikeaLogo from "@/assets/client-logos/ikea.svg";
+import panasonicLogo from "@/assets/client-logos/panasonic.svg";
+import ansellLogo from "@/assets/client-logos/ansell.svg";
+import ametekLogo from "@/assets/client-logos/ametek.svg";
+import boschLogo from "@/assets/client-logos/bosch.svg";
+
 export const ANIMATION_SPEEDS = {
   fast: "15s",
   normal: "25s",
@@ -7,37 +15,37 @@ export const ANIMATION_SPEEDS = {
 export const COMPANY_LOGOS = [
   {
     name: "Honeywell",
-    src: "/src/assets/client-logos/honeywell.svg",
+    src: honeywellLogo,
     height: 37,
     alt: "Honeywell Logo",
   },
   {
     name: "IKEA",
-    src: "/src/assets/client-logos/ikea.svg",
+    src: ikeaLogo,
     height: 30,
     alt: "IKEA Logo",
   },
   {
     name: "Panasonic",
-    src: "/src/assets/client-logos/panasonic.svg",
+    src: panasonicLogo,
     height: 26,
     alt: "Panasonic Logo",
   },
   {
     name: "Ansell",
-    src: "/src/assets/client-logos/ansell.svg",
+    src: ansellLogo,
     height: 26,
     alt: "Ansell Logo",
   },
   {
     name: "Ametek",
-    src: "/src/assets/client-logos/ametek.svg",
+    src: ametekLogo,
     height: 23.5,
     alt: "Ametek Logo",
   },
   {
     name: "Bosch",
-    src: "/src/assets/client-logos/bosch.svg",
+    src: boschLogo,
     height: 32,
     alt: "Bosch Logo",
   },
