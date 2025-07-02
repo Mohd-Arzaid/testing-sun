@@ -13,7 +13,6 @@ import { NAVIGATION_DATA } from "@/data/navbar-data/navbar-data";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 
-
 const STYLES = {
   button:
     "text-base uppercase text-foreground/60 font-roboto tracking-wide hover:text-foreground/80 transition-colors",
@@ -134,8 +133,6 @@ const Navbar = () => {
             className="w-10 h-10 md:w-12 md:h-12"
             loading="eager"
             decoding="async"
-            width="48"
-            height="48"
           />
           <div className="py-2 text-center">
             <h1 className="font-roboto text-black uppercase tracking-wide leading-normal text-[14px] md:text-xl font-bold">
