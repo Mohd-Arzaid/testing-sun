@@ -147,7 +147,7 @@ const OurServices = () => {
             <ChevronRight className="w-7 h-7 text-[#1A8781]" />
           </button>
 
-          <div className="relative overflow-hidden rounded-3xl shadow-2xl h-[500px] bg-gradient-to-br from-[#1A8781]/5 to-[#1A8781]/20 border border-[#1A8781]/30">
+          <div className="relative overflow-hidden rounded-3xl shadow-2xl h-[500px] bg-gradient-to-br from-[#1A8781]/5 to-[#1A8781]/20 border border-[#1A8781]/30 will-change-transform">
             <div
               className="flex transition-transform duration-500 h-full"
               style={slideTransform}
@@ -165,6 +165,9 @@ const OurServices = () => {
                           src={service.image}
                           alt={service.title}
                           className="w-20 h-20 rounded-full object-contain"
+                          width="80"
+                          height="80"
+                          loading="lazy"
                         />
                       </div>
 
@@ -199,6 +202,9 @@ const OurServices = () => {
                           src={service.image}
                           alt={service.title}
                           className="w-48 h-48 rounded-full object-contain"
+                          width="192"
+                          height="192"
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -225,7 +231,7 @@ const OurServices = () => {
         </div>
 
         {/* Service thumbnails */}
-        <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 ">
+        <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 min-h-[120px] md:min-h-[140px]">
           {services.map((service, index) => (
             <div
               key={service.id}
@@ -242,6 +248,9 @@ const OurServices = () => {
                     src={service.image}
                     alt={service.title}
                     className="w-8 h-8 md:w-12 md:h-12 rounded-full object-contain mx-auto"
+                    width="48"
+                    height="48"
+                    loading="lazy"
                   />
                 </div>
                 <h4 className="font-geist font-medium text-xs md:text-base leading-tight">

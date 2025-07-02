@@ -8,7 +8,6 @@ const ANIMATION_SPEEDS = {
   slow: "35s",
 };
 
-
 const LogoTicker = ({
   direction = "left",
   speed = "normal",
